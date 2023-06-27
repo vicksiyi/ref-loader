@@ -25,6 +25,21 @@ module.exports = parse;
  * @param {function} pred It's a predicate function and called while each ref path extracted
  * @throws {Error} Occur when source code has invalid syntax 
  */
+/**
+ * 这个过程通过正则编写则更加复杂
+ * example:
+ * const replaceRegex = /@ref\(([^)]+)\)/g;
+ * function parse(src, pred) {
+ *  return src.replace(replaceRegex, (match, p1) => pred(p1));
+ * }
+ * 
+ * note:
+ * 上面这个没有对替换的函数进行格式化
+ *
+ * 存在下面问题：
+ * 1. 格式化问题
+ * 2. 括号未闭合报错问题[正则处理起来比较麻烦]
+ */
 function parse(src, pred) {
   let ret = '\"\"', pos = 0;
   while (pos < src.length) {
@@ -53,7 +68,6 @@ function parse(src, pred) {
   }
   return ret;
 }
-
 
 
 // const str = `... @ref() ... @ref(./c.png) A`; // Should throw an Error
